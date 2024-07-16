@@ -65,8 +65,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         
         let tripDistance = location.distance(from: startTripLocation!) / 1000
         Distance.text = "\(String(format: "%.2f", tripDistance)) km"
-        
-        // Calculate average speed based on total speed and count of speed readings
+    
         let averageSpeed = totalSpeed / Double(speedCount)
         avgSpeed.text = "\(String(format: "%.2f", averageSpeed * 3.6)) km/h"
         
