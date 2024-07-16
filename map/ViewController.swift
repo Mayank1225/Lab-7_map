@@ -69,7 +69,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         let averageSpeed = totalSpeed / Double(speedCount)
         avgSpeed.text = "\(String(format: "%.2f", averageSpeed * 3.6)) km/h"
         
-        calculateAcceleration(CurrentSpeed: speed)
+        calculateAcceleration(CurrentSpeed: speed * 3.6)
         
         map.setRegion(coordinateRegion, animated: true)
     }
@@ -97,7 +97,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         
         if acceleration > accelerationValue {
             accelerationValue = acceleration
-            maxAccelerate.text = "\(String(format: "%.2f", accelerationValue * 3.6)) m/s^2"
+            maxAccelerate.text = "\(String(format: "%.2f", accelerationValue)) m/s^2"
         }
     }
 }
