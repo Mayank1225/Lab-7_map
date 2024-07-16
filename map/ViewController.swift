@@ -18,6 +18,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     var preSpeed: CLLocationSpeed?
     var accelerationValue: Double = 0
     var speedValue: CLLocationSpeed = 0
+    var totalSpeed: CLLocationSpeed = 0
+    var speedCount: Int = 0
     var startTime: Date?
     
     override func viewDidLoad() {
@@ -42,13 +44,19 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                                                   latitudinalMeters: 500, longitudinalMeters: 500)
         if startTripLocation == nil {
             speedValue = 0
+            totalSpeed = 0
+            speedCount = 0
             startTripLocation = location
+            startTime = Date()
         }
         
         let speed = location.speed
         if speed > speedValue {
             speedValue = speed
         }
+        
+        totalSpeed += speed
+        speedCount += 1
         
         redview.backgroundColor = speed * 3.6 > 115 ? .red : .systemGray6
         
@@ -58,11 +66,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         let tripDistance = location.distance(from: startTripLocation!) / 1000
         Distance.text = "\(String(format: "%.2f", tripDistance)) km"
         
-        if let startTime = startTime {
-            let timeDistance = Date().timeIntervalSince(startTime)
-            let averageSpeed = tripDistance / (timeDistance / 3600)
-            avgSpeed.text = "\(String(format: "%.2f", averageSpeed)) km/h"
-        }
+        // Calculate average speed based on total speed and count of speed readings
+        let averageSpeed = totalSpeed / Double(speedCount)
+        avgSpeed.text = "\(String(format: "%.2f", averageSpeed * 3.6)) km/h"
         
         calculateAcceleration(CurrentSpeed: speed)
         
